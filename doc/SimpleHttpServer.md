@@ -5,7 +5,7 @@
 - Editor：Visual Studio 2019
 - 言語：C
 - 依存するライブラリ：ws2_32.lib
-- サンプルプロジェクト：SimpleTcpServer
+- サンプルプロジェクト：SimpleTcpServerDemo
 
 
 
