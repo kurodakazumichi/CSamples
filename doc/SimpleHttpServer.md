@@ -253,10 +253,10 @@ int main()
 	// ソケットの作成
 	server = socket(AF_INET, SOCK_STREAM, 0);
   
-  if (server < 0) {
-	  perror("socket");
-	  return 1;
-  }
+  	if (server < 0) {
+		perror("socket");
+	 	return 1;
+  	}
 
 	// 接続先指定用構造体の準備
 	server_conf.sin_family = AF_INET;
@@ -266,7 +266,7 @@ int main()
 	// サーバーに接続
 	connect(server, (struct sockaddr*)&server_conf, sizeof(server_conf));
     
-    // Serverにデータ送信
+    	// Serverにデータ送信
 	send(server, "Hello", 6, 0);
 
 	// サーバーからデータを受信
