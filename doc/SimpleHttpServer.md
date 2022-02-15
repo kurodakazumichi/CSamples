@@ -140,7 +140,7 @@ socket address, internetの略
 | 0        | 2        |
 
 
-## for Mac
+## for Mac(gcc)
 
 `main.c`
 
