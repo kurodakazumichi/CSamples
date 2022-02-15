@@ -234,8 +234,7 @@ int main()
 
 `client.c`
 
-```c
-// ヘッダ
+```c// ヘッダ
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -253,11 +252,11 @@ int main()
 
 	// ソケットの作成
 	server = socket(AF_INET, SOCK_STREAM, 0);
-
-	if (server == INVALID_SOCKET) {
-		printf("error : %d\n", WSAGetLastError());
-		return 1;
-	}
+  
+  if (server < 0) {
+	  perror("socket");
+	  return 1;
+  }
 
 	// 接続先指定用構造体の準備
 	server_conf.sin_family = AF_INET;
