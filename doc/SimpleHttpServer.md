@@ -142,7 +142,7 @@ socket address, internetの略
 
 ## for Mac(gcc)
 
-`main.c`
+`server.c`
 
 ```c
 #include <stdio.h>
@@ -229,6 +229,56 @@ int main()
   return 0;
 }
 ```
+
+
+
+`client.c`
+
+```c
+// ヘッダ
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
+
+// エントリーポイント
+int main() 
+{
+   	int server;
+	struct sockaddr_in server_conf;
+
+	char response[2048];
+
+	// ソケットの作成
+	server = socket(AF_INET, SOCK_STREAM, 0);
+
+	if (server == INVALID_SOCKET) {
+		printf("error : %d\n", WSAGetLastError());
+		return 1;
+	}
+
+	// 接続先指定用構造体の準備
+	server_conf.sin_family = AF_INET;
+	server_conf.sin_port = htons(12345);
+	server_conf.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+	// サーバーに接続
+	connect(server, (struct sockaddr*)&server_conf, sizeof(server_conf));
+    
+    // Serverにデータ送信
+	send(server, "Hello", 6, 0);
+
+	// サーバーからデータを受信
+	memset(response, 0, sizeof(response));
+	int n = recv(server, response, sizeof(response), 0);
+	printf("%d, %s\n", n, response);
+
+	return 0;
+}
+```
+
 
 
 ## 参考
