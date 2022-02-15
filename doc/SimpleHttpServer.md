@@ -140,7 +140,95 @@ socket address, internetの略
 | 0        | 2        |
 
 
+## for Mac
 
+`main.c`
+
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
+
+int main()
+{
+  // 接続検知用のソケット
+  int server;
+  struct sockaddr_in server_conf;
+
+  // クライアントとのやり取りのためのソケット
+  int client;
+  struct sockaddr_in client_conf;
+
+  // リクエスト、レスポンスメッセージ用の配列
+  char request[2048];
+  char response[2048];
+
+
+  // 接続検知用のソケットを作成
+  server = socket(AF_INET, SOCK_STREAM, 0);
+  if (server < 0) {
+	  perror("socket");
+	  return 1;
+  }
+
+  // サーバーの設定をする
+  server_conf.sin_family = AF_INET;
+  server_conf.sin_port = htons(12345);
+  server_conf.sin_addr.s_addr = INADDR_ANY;
+
+  // server用ソケットにポート番号などの情報をバインド
+  if (bind(server, (struct sockaddr *)&server_conf, sizeof(server_conf)) != 0) {
+	  perror("bind");
+	  return 1;
+  }
+
+	// TCPクライアントからの接続要求を待てる状態にする
+  if (listen(server, 5) != 0) {
+	  perror("listen");
+	  return 1;
+  }
+
+  // 応答用HTTPメッセージ作成
+  memset(response, 0, sizeof(response));
+  snprintf(response, sizeof(response),
+	  "HTTP/1.0 200 OK\r\n"
+	  "Content-Type: text/html\r\n"
+	  "\r\n"
+	  "HELLO\r\n");
+
+  // クライアントからの接続要求を受け付ける
+  while (1) 
+  {
+    // クライアントの接続待ち
+    socklen_t len = sizeof(client_conf);
+    client = accept(server, (struct sockaddr *)&client_conf, &len);
+
+    // 接続が来るまで↓の処理へは進まない
+    if (client < 0) {
+	    perror("accept");
+	    break;
+    }
+
+    // リクエストメッセージを受信
+    memset(request, 0, sizeof(request));
+    recv(client, request, sizeof(request), 0);
+   
+    // リクエストの内容をデバッグ表示
+    printf("%s", request);
+
+    // データ送信して接続を閉じる
+    send(client, response, (int)strlen(response), 0);
+    close(client);
+ }
+
+  close(server);
+
+  return 0;
+}
+```
 
 
 ## 参考
