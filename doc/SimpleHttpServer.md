@@ -158,6 +158,9 @@ socket address, internetの略
 - [_snprintf_s](https://qiita.com/ymdymd/items/0e64b0675dfeec18255e)
 - [MAKEWORD](https://yttm-work.jp/network/network_0015.html)
 - [backlogとは](https://u-kipedia.hateblo.jp/entry/2015/01/01/001135)
+- [Linux1参考](https://www.koikikukan.com/archives/2017/10/31-000300.php)
+- [Linux参考2](https://www.katto.comm.waseda.ac.jp/~katto/Class/GazoTokuron/code/socket.html)
+- [FWを作ろう](http://www.is.noda.tus.ac.jp/~t-matsu/NetworkProgramming/)
 
 
 
